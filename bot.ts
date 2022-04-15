@@ -13,7 +13,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_BANS,
     Intents.FLAGS.GUILD_PRESENCES,
-    Intents.FLAGS.GUILD_INTEGRATIONS
+    Intents.FLAGS.GUILD_INTEGRATIONS,
   ],
 });
 

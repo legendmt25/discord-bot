@@ -11,8 +11,9 @@ const clientId = '824782684298412123';
 
 const rest = new REST().setToken(TOKEN!);
 
-const commands = files.map((file) => {
-  return file.then((command) => command.data);
+const commands = files.map(async (file) => {
+  const command = await file;
+  return command.data;
 });
 
 (async function () {
