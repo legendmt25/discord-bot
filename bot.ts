@@ -1,4 +1,5 @@
 import { Client, Collection, Intents, Interaction } from 'discord.js';
+import localtunnel from 'localtunnel';
 import { ICommand } from './src/models/ICommand';
 import { files } from './src/loadCommands';
 import './src/deployCommands';
@@ -14,6 +15,7 @@ const client = new Client({
     Intents.FLAGS.GUILD_BANS,
     Intents.FLAGS.GUILD_PRESENCES,
     Intents.FLAGS.GUILD_INTEGRATIONS,
+    Intents.FLAGS.GUILD_VOICE_STATES,
   ],
 });
 
@@ -23,7 +25,36 @@ files.forEach(async (file) => {
   commands.set(command.data.name, command.execute);
 });
 
-client.once('ready', () => {
+const YouTubeNotifier = require('youtube-notification');
+const channelIds = [
+  'UC-lHJZR3Gqxm24_Vd_AJ5Yw',
+  'UCjehMNgRu7EX0r42G-aqQNQ',
+  'UCoY_dofjT_dNWnYyDO6YYKg',
+  'UCs6nmQViDpUw0nuIx9c_WvA',
+  'UCAokB3MtXieee1ReEYHiCTg',
+];
+//pewdiepie channelId
+
+client.once('ready', async () => {
+  const tunnelPort = 3000;
+  const lt = await localtunnel(tunnelPort);
+  const notifier = new YouTubeNotifier({
+    hubCallback: lt.url,
+    path: '/youtube/notifications',
+    port: tunnelPort,
+  });
+  notifier.setup(() => console.log(`Server listening on ${tunnelPort}`));
+
+  notifier.subscribe(channelIds);
+
+  notifier.on('subscribe', (data: any) => {
+    console.log(data);
+  });
+  notifier.on('notified', (data: any) => {
+    console.log(data);
+  });
+
+  console.log(`Local tunnel running on ${lt.url}, PORT: ${tunnelPort}`);
   console.log('Ready!');
 });
 
