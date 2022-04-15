@@ -1,9 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { BaseCommandInteraction, GuildMember, Interaction } from 'discord.js';
 import { joinedVoiceChannels } from '../../JoinedVoiceChannels';
-import ytdl from 'ytdl-core';
-import ytsr from 'ytsr';
-import ytpl from 'ytpl';
 
 export const data = new SlashCommandBuilder()
   .setName('stop')

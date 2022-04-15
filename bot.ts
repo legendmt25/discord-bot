@@ -71,3 +71,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 client.login(TOKEN);
+
+client.on('guildMemberAdd', (member) => {
+  member.send({ content: `Welcome to the amusement park ${member.user.username}` });
+});
