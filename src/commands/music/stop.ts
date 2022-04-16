@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { BaseCommandInteraction, GuildMember, Interaction } from 'discord.js';
-import { joinedVoiceChannels } from '../../JoinedVoiceChannels';
+import { guildVoiceConnectionService } from '../../services/GuildVoiceConnectionService';
 
 export const data = new SlashCommandBuilder()
   .setName('stop')
@@ -10,10 +10,8 @@ export const execute = async (interaction: Interaction) => {
   const _interaction = interaction as BaseCommandInteraction;
   const guildMember = _interaction.member as GuildMember;
 
-  if (joinedVoiceChannels.isJoinedIn(_interaction.guildId!)) {
-    joinedVoiceChannels.get(_interaction.guildId!)?.destroy();
-    joinedVoiceChannels.unset(_interaction.guildId!);
-  }
+  guildVoiceConnectionService.deleteByGuildId_IfExists(_interaction.guildId!);
+
   _interaction.reply({
     content: `${guildMember.user.username} stopped the music player`,
   });

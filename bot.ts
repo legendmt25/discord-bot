@@ -1,6 +1,6 @@
 import { Client, Collection, Intents, Interaction } from 'discord.js';
 import localtunnel from 'localtunnel';
-import { ICommand } from './src/models/ICommand';
+import { ICommand } from './src/models/Command';
 import { files } from './src/loadCommands';
 import './src/deployCommands';
 
@@ -37,11 +37,10 @@ const channelIds = [
 
 client.once('ready', async () => {
   const tunnelPort = 3000;
-  const lt = await localtunnel(tunnelPort);
+  const lt = await localtunnel({ port: tunnelPort });
   const notifier = new YouTubeNotifier({
     hubCallback: lt.url,
     path: '/youtube/notifications',
-    port: tunnelPort,
   });
   notifier.setup(() => console.log(`Server listening on ${tunnelPort}`));
 
@@ -55,7 +54,7 @@ client.once('ready', async () => {
   });
 
   console.log(`Local tunnel running on ${lt.url}, PORT: ${tunnelPort}`);
-  console.log('Ready!');
+  console.log('Client is ready!');
 });
 
 client.on('interactionCreate', async (interaction) => {
@@ -73,5 +72,7 @@ client.on('interactionCreate', async (interaction) => {
 client.login(TOKEN);
 
 client.on('guildMemberAdd', (member) => {
-  member.send({ content: `Welcome to the amusement park ${member.user.username}` });
+  member.send({
+    content: `Welcome to the amusement park ${member.user.username}`,
+  });
 });
