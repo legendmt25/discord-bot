@@ -33,7 +33,6 @@ const channelIds = [
   'UCs6nmQViDpUw0nuIx9c_WvA',
   'UCAokB3MtXieee1ReEYHiCTg',
 ];
-//pewdiepie channelId
 
 client.once('ready', async () => {
   const tunnelPort = 3000;
